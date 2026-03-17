@@ -18,10 +18,7 @@ function AppContent() {
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [selectedUsername, setSelectedUsername] = useState<string | null>(null);
-
-  if (!user) {
-    return <Auth />;
-  }
+  const [showAuth, setShowAuth] = useState(false);
 
   const handleProjectClick = (project: Project) => {
     setSelectedProject(project);
@@ -65,6 +62,34 @@ function AppContent() {
     setShowProjectForm(false);
     setEditingProject(null);
   };
+
+  if (!user) {
+    return (
+      <div className="h-screen flex flex-col bg-slate-50">
+        <header className="bg-white border-b border-slate-200 shadow-sm">
+          <div className="max-w-full px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="bg-slate-900 p-2 rounded-lg">
+                <LayoutGrid className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-2xl font-bold text-slate-900">NEMAPA</h1>
+              <span className="text-slate-500 text-sm">Red social de proyectos creativos</span>
+            </div>
+            <button
+              onClick={() => setShowAuth(true)}
+              className="px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors font-medium"
+            >
+              Ingresar / Registrarse
+            </button>
+          </div>
+        </header>
+        <main className="flex-1 overflow-hidden">
+          <ProjectMap onProjectClick={handleProjectClick} />
+        </main>
+        {showAuth && <Auth />}
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen flex flex-col bg-slate-50">
