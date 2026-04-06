@@ -46,6 +46,9 @@ export default function Auth() {
             </div>
           </div>
 
+          <p className="text-slate-400 text-center text-lg mb-1">
+            Hola
+          </p>
           <h1 className="text-3xl font-bold text-white text-center mb-2">
             NEMAPA
           </h1>
