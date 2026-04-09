@@ -176,21 +176,19 @@ export default function Supermapa() {
             transformOrigin: '0 0',
             transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`,
             willChange: 'transform',
+            background: `linear-gradient(to bottom,
+              #090618 0%,
+              #170838 18%,
+              #32104e 34%,
+              #6a1e62 44%,
+              #b83820 48.5%,
+              #e87010 50%,
+              #3a1206 53%,
+              #150805 68%,
+              #08090c 85%
+            )`,
           }}
         >
-          {/* Subtle radial glow at center */}
-          <div
-            style={{
-              position: 'absolute',
-              left: CENTER_X - 400,
-              top: CENTER_Y - 400,
-              width: 800,
-              height: 800,
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(212,168,67,0.04) 0%, transparent 70%)',
-              pointerEvents: 'none',
-            }}
-          />
 
           {/* SVG connections */}
           <svg
@@ -218,7 +216,51 @@ export default function Supermapa() {
                   <polygon points="0 0,6 2.5,0 5" fill={color} opacity="0.5" />
                 </marker>
               ))}
+              <linearGradient id="horizonGlow" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stopColor="#e87010" stopOpacity="0" />
+                <stop offset="15%"  stopColor="#e87010" stopOpacity="0.45" />
+                <stop offset="50%"  stopColor="#f09030" stopOpacity="0.6" />
+                <stop offset="85%"  stopColor="#e87010" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="#e87010" stopOpacity="0" />
+              </linearGradient>
             </defs>
+
+            {/* Sky / earth arc — large circle centered on personaje */}
+            <circle
+              cx={CENTER_X}
+              cy={CENTER_Y}
+              r={1300}
+              fill="none"
+              stroke="rgba(232, 112, 16, 0.12)"
+              strokeWidth={16}
+            />
+            <circle
+              cx={CENTER_X}
+              cy={CENTER_Y}
+              r={1300}
+              fill="none"
+              stroke="rgba(232, 112, 16, 0.22)"
+              strokeWidth={1.5}
+            />
+
+            {/* Horizon glow band */}
+            <rect
+              x={0}
+              y={CENTER_Y - 10}
+              width={WORLD_W}
+              height={20}
+              fill="url(#horizonGlow)"
+            />
+            {/* Horizon line */}
+            <line
+              x1={0}
+              y1={CENTER_Y}
+              x2={WORLD_W}
+              y2={CENTER_Y}
+              stroke="#e87010"
+              strokeWidth={1}
+              opacity={0.55}
+            />
 
             {connections.map(conn => {
               const pts = getLinePoints(conn.from, conn.to);
@@ -272,7 +314,7 @@ export default function Supermapa() {
             style={{
               position: 'absolute',
               left: CENTER_X - 24,
-              top: CENTER_Y - 60,
+              top: CENTER_Y - 70,
               pointerEvents: 'none',
               zIndex: 10,
             }}
